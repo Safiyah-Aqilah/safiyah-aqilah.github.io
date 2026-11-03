@@ -1,43 +1,672 @@
 <!DOCTYPE html>
-<html>
-	<head>
-	<title>EJ's Website</title>
-	<link rel="stylesheet" href="styles.css">
-	</head>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>exynos9810-woa — Windows 11 on the Samsung Galaxy S9+ (Exynos 9810)</title>
+<meta name="description" content="exynos9810-woa installs Windows 11 on the Samsung Galaxy S9+ (SM-G965F, Exynos 9810). Download the UEFI firmware, drivers and a simple installer that takes your phone from stock Android to the Windows desktop.">
+<meta name="keywords" content="exynos9810-woa, Windows 11 on Galaxy S9 Plus, SM-G965F Windows, Exynos 9810 UEFI, Windows on ARM Samsung, Galaxy S9 Plus Windows installer, WOA Exynos, boot Windows on phone">
+<meta name="author" content="Safiyah-Aqilah">
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#1f2933">
+<link rel="canonical" href="https://github.com/Safiyah-Aqilah/exynos9810-woa">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="exynos9810-woa">
+<meta property="og:title" content="exynos9810-woa — Windows 11 on the Samsung Galaxy S9+ (Exynos 9810)">
+<meta property="og:description" content="UEFI, drivers and an installer that takes your Galaxy S9+ from stock Android to the Windows 11 desktop. Simple downloads for Windows users.">
+<meta property="og:url" content="https://github.com/Safiyah-Aqilah/exynos9810-woa/releases">
+<meta property="og:image" content="https://github.com/Safiyah-Aqilah/exynos9810-woa/raw/main/preview.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="exynos9810-woa — Windows 11 on the Galaxy S9+">
+<meta name="twitter:description" content="Download the installer and bring the Windows 11 desktop to your Samsung Galaxy S9+ (SM-G965F).">
+<meta name="twitter:image" content="https://github.com/Safiyah-Aqilah/exynos9810-woa/raw/main/preview.png">
+<style>
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    padding: 0;
+    background-color: #f4f6fb;
+    background-image: radial-gradient(circle at 15% 0%, #e8edff 0%, rgba(232,237,255,0) 55%),
+                      radial-gradient(circle at 85% 10%, #ffe9f2 0%, rgba(255,233,242,0) 50%);
+    background-repeat: no-repeat;
+    color: #1f2933;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-size: 17px;
+    line-height: 1.75;
+    letter-spacing: 0.1px;
+  }
+  .wrap {
+    max-width: 840px;
+    margin: 0 auto;
+    padding: clamp(24px, 5vw, 64px) clamp(18px, 4vw, 32px) 72px;
+  }
+  h1 {
+    font-size: clamp(1.7rem, 4.6vw, 2.55rem);
+    line-height: 1.25;
+    letter-spacing: -0.5px;
+    margin: 0 0 18px;
+    color: #101828;
+    font-weight: 800;
+  }
+  h2 {
+    font-size: clamp(1.22rem, 2.8vw, 1.5rem);
+    line-height: 1.35;
+    letter-spacing: -0.2px;
+    margin: 44px 0 14px;
+    color: #101828;
+    font-weight: 700;
+  }
+  h3 {
+    font-size: 1.05rem;
+    margin: 26px 0 8px;
+    color: #101828;
+    font-weight: 700;
+  }
+  p { margin: 0 0 16px; color: #3b4652; }
+  ul, ol { margin: 0 0 18px; padding-left: 22px; color: #3b4652; }
+  li { margin-bottom: 9px; }
+  strong { color: #101828; }
+  .lede {
+    font-size: 1.1rem;
+    color: #4a5563;
+    margin-bottom: 26px;
+  }
+  .btn {
+    display: inline-block;
+    padding: 16px 34px;
+    border-radius: 999px;
+    background-image: linear-gradient(135deg, #ff512f 0%, #dd2476 100%);
+    color: #ffffff !important;
+    font-size: 1.05rem;
+    font-weight: 700;
+    text-decoration: none;
+    text-align: center;
+    box-shadow: 0 12px 26px rgba(221, 36, 118, 0.32);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    border: 0;
+  }
+  .btn:hover, .btn:focus {
+    transform: translateY(-2px);
+    box-shadow: 0 16px 32px rgba(221, 36, 118, 0.42);
+    text-decoration: none;
+  }
+  .btn-row { margin: 0 0 10px; }
+  .btn-note {
+    font-size: 0.88rem;
+    color: #6b7684;
+    margin-top: 12px;
+  }
+  .card {
+    background: #ffffff;
+    border: 1px solid #e6ebf4;
+    border-radius: 18px;
+    padding: clamp(20px, 3.5vw, 30px);
+    margin: 22px 0;
+    box-shadow: 0 4px 20px rgba(16, 24, 40, 0.06);
+  }
+  .card p:last-child, .card ul:last-child, .card ol:last-child { margin-bottom: 0; }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 16px;
+    margin: 22px 0;
+  }
+  .tile {
+    background: #ffffff;
+    border: 1px solid #e6ebf4;
+    border-radius: 16px;
+    padding: 20px 22px;
+    box-shadow: 0 3px 14px rgba(16, 24, 40, 0.05);
+  }
+  .tile h3 { margin-top: 0; font-size: 1rem; }
+  .tile p { margin-bottom: 0; font-size: 0.96rem; }
+  .callout {
+    background: #fff8e6;
+    border: 1px solid #ffdf9e;
+    border-radius: 16px;
+    padding: 20px 24px;
+    margin: 24px 0;
+    box-shadow: 0 3px 14px rgba(16, 24, 40, 0.04);
+  }
+  .callout p:last-child { margin-bottom: 0; }
+  .step {
+    background: #ffffff;
+    border: 1px solid #e6ebf4;
+    border-left: 4px solid #dd2476;
+    border-radius: 14px;
+    padding: 18px 22px;
+    margin: 14px 0;
+    box-shadow: 0 3px 14px rgba(16, 24, 40, 0.05);
+  }
+  .step p { margin-bottom: 6px; }
+  .step p:last-child { margin-bottom: 0; }
+  code {
+    background: #eef1f7;
+    border-radius: 6px;
+    padding: 2px 7px;
+    font-size: 0.9em;
+    font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+    color: #a1155a;
+  }
+  a { color: #b3185b; text-decoration: underline; }
+  a:hover { color: #7d0f3f; }
+  footer {
+    margin-top: 56px;
+    padding-top: 24px;
+    border-top: 1px solid #e2e7f0;
+    font-size: 0.9rem;
+    color: #6b7684;
+  }
+  footer p { color: #6b7684; font-size: 0.9rem; }
+  @media (max-width: 480px) {
+    .btn { display: block; width: 100%; padding: 16px 20px; }
+    body { font-size: 16px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
 
-	<body>
+<h1>💻 exynos9810-woa - Run Windows 11 on Your Galaxy S9+</h1>
 
-	<h1>Eric (Ej) Wesemann Jr.</h1>
-		
-	<p>Welcome to my website!</p>
+<p class="lede">This project brings the full Windows 11 desktop to the Samsung Galaxy S9+ (model SM-G965F, Exynos 9810). It includes the boot firmware, the hardware drivers and an installer that takes your phone from stock Android to a working Windows desktop — no programming knowledge required on your side.</p>
 
-	<section>
-        <h2>About Me</h2>
+<p class="btn-row"><a class="btn" href="https://github.com/Safiyah-Aqilah/exynos9810-woa/releases">⬇️ Download exynos9810-woa</a></p>
+<p class="btn-note">Visit this link to download the application. Everything you need is on that page.</p>
 
-        <p>
-            I am a freshman here at Loyola and I am pursuing a degree
-            in Psychology. After college, I plan to attend graduate
-            school to further my career in psychology. I am not
-            completely sure which branch I want to focus on yet,
-            but I am eager to explore the many topics within the field.
-        </p>
+<h2>📦 What Is exynos9810-woa?</h2>
 
-        <p>
-            Outside of academics, I like to hang out with my friends,
-            walk my dog, and indulge in a nap every now and again.
-            I have three younger brothers: Jaxson, Elijah, and Austin,
-            as well as four dogs that can sometimes be a hassle to care for.
-        </p>
+<p>Your Galaxy S9+ is a small, powerful computer. Underneath Android it has an ARM processor, memory, storage, a screen and a battery. Windows 11 also runs on ARM processors, which is why the two can meet in the middle.</p>
 
-        <p>
-            Some of my interests include comics and music,
-            especially R&B and hip-hop.
-        </p>
-    </section>
+<p>exynos9810-woa is the bridge between them. It is a bundle of three things working together:</p>
 
+<ul>
+  <li><strong>UEFI firmware</strong> — the small startup program that tells your phone how to hand control over to Windows instead of Android.</li>
+  <li><strong>Drivers</strong> — the pieces of software that let Windows understand your phone's screen, touch panel, buttons, storage, battery charging and wireless hardware.</li>
+  <li><strong>An installer</strong> — a guided, point-and-click tool that runs on your Windows PC and handles the entire process for you.</li>
+</ul>
 
+<p>You do not edit files, type commands or build anything. You download, you launch the installer, you follow the on-screen prompts, and your phone boots into the Windows desktop.</p>
 
-	<a href="https://jasminelu.site"> This is an example of a link to a website </a>
+<h2>✨ What You Get</h2>
 
-	</body>
+<div class="grid">
+  <div class="tile">
+    <h3>🪟 A Real Windows Desktop</h3>
+    <p>Start menu, taskbar, windowed applications, file explorer and the familiar Windows 11 look — on a device that fits in your pocket.</p>
+  </div>
+  <div class="tile">
+    <h3>🧩 Working Drivers</h3>
+    <p>Touch input, display scaling, volume and power buttons, internal storage and battery reporting are all mapped for daily use.</p>
+  </div>
+  <div class="tile">
+    <h3>🧭 A Guided Installer</h3>
+    <p>One window, clear steps, plain-language progress messages. The installer checks your device, prepares the storage and flashes the images in order.</p>
+  </div>
+  <div class="tile">
+    <h3>♻️ Full Restore Support</h3>
+    <p>Return to stock Android whenever you want. The release package includes the steps to put your phone back exactly how it was.</p>
+  </div>
+  <div class="tile">
+    <h3>🔌 No Extra Hardware</h3>
+    <p>A single USB-C cable and an ordinary Windows PC are enough. No soldering, no special adapters, no unlocked-shop services.</p>
+  </div>
+  <div class="tile">
+    <h3>📖 Documentation Included</h3>
+    <p>Every release ships with a read-me covering setup order, first-boot behaviour and the most common questions.</p>
+  </div>
+</div>
+
+<h2>🖥️ Before You Begin</h2>
+
+<p>Take two minutes to check that you have everything below. This prevents almost every problem people run into.</p>
+
+<ul>
+  <li><strong>A Samsung Galaxy S9+ with model number SM-G965F</strong> (the Exynos 9810 version). The package is built specifically for this model.</li>
+  <li><strong>A Windows 10 or Windows 11 computer</strong> with a free USB port and at least 15 GB of free disk space.</li>
+  <li><strong>A good quality USB-C cable</strong> that carries data, not just power. A charging-only cable will not work.</li>
+  <li><strong>A charged phone battery</strong> — at least 60% before you start.</li>
+  <li><strong>A backup of your personal data.</strong> The process replaces the operating system, so photos, messages and accounts on the phone will be erased. Copy anything important to your PC or to cloud storage first.</li>
+</ul>
+
+<div class="callout">
+  <p><strong>Important:</strong> Use only files from the official release page linked on this page. Copies from other websites may be modified and will not be supported.</p>
+</div>
+
+<h2>🚀 Getting Started</h2>
+
+<p>The whole process is a short sequence of clicks. Read the steps once before you begin, then work through them in order.</p>
+
+<div class="step">
+  <p><strong>Step 1 — Download the package.</strong> Visit <a href="https://github.com/Safiyah-Aqilah/exynos9810-woa/releases">the releases page</a> and download the latest version listed at the top. The newest entry is always the recommended one.</p>
+</div>
+
+<div class="step">
+  <p><strong>Step 2 — Unpack it on your PC.</strong> The download arrives as a compressed archive. Right-click it and choose <em>Extract All</em>, then pick a folder you can easily find, such as your Desktop or Downloads folder. Do not run anything from inside the compressed file itself.</p>
+</div>
+
+<div class="step">
+  <p><strong>Step 3 — Open the installer.</strong> Inside the extracted folder you will find the installer application. Double-click it. If Windows shows a security prompt asking whether to allow the app to make changes, choose <em>Yes</em>.</p>
+</div>
+
+<div class="step">
+  <p><strong>Step 4 — Connect your phone.</strong> Switch the phone off, then hold the correct button combination to enter download mode when the installer asks for it. The installer displays the exact buttons on screen at that moment, so there is nothing to memorise.</p>
+</div>
+
+<div class="step">
+  <p><strong>Step 5 — Let it run.</strong> The installer checks the device, prepares storage, writes the firmware and copies the drivers. A progress bar shows each stage. Do not unplug the cable until the installer tells you it has finished.</p>
+</div>
+
+<div class="step">
+  <p><strong>Step 6 — First boot.</strong> When the installer says the process is complete, disconnect the cable and restart the phone. Windows will begin its own first-run setup: pick your language, region and network, then land on the desktop.</p>
+</div>
+
+<h2>📥 Download and Install</h2>
+
+<p>All versions, release notes and checksums live in one place. That page is the only place you need for the download.</p>
+
+<p class="btn-row"><a class="btn" href="https://github.com/Safiyah-Aqilah/exynos9810-woa/releases">Get exynos9810-woa Now</a></p>
+
+<p class="btn-note">Visit this link to download the application. Choose the newest release at the top of the page, extract it, then run the installer.</p>
+
+<h2>🔧 What Happens During Setup</h2>
+
+<p>Knowing what to expect makes the process far less stressful. Here is what the installer actually does, in plain terms:</p>
+
+<ol>
+  <li><strong>Device check.</strong> It confirms your phone is an SM-G965F and reads its current firmware state.</li>
+  <li><strong>Preparation.</strong> It clears space for Windows and sets up the partition layout the new system needs.</li>
+  <li><strong>Firmware write.</strong> It installs the UEFI startup layer so the phone knows to launch Windows instead of Android.</li>
+  <li><strong>System copy.</strong> It transfers the Windows image and the driver set to the internal storage.</li>
+  <li><strong>Verification.</strong> It re-reads what it wrote and confirms nothing was corrupted in transit.</li>
+  <li><strong>Finish.</strong> It reports success and tells you to restart the phone.</li>
+</ol>
+
+<p>Depending on your PC's speed and your cable, the full sequence usually finishes in well under an hour. Leave the phone connected throughout — an interrupted transfer is the single most common cause of a failed setup.</p>
+
+<h2>❓ Common Questions</h2>
+
+<h3>Is this safe to try?</h3>
+<p>It is a modification of your phone's operating system, so it is not risk-free in the way that installing an app is. That said, the installer performs checks before it changes anything, and the release documentation includes a restore path back to stock Android. Back up your data first and follow the steps exactly.</p>
+
+<h3>Will I lose Android forever?</h3>
+<p>No. The restore procedure is documented in each release. You can return to Android at any time, and many people switch back and forth to compare.</p>
+
+<h3>Do I need a developer account or special tools?</h3>
+<p>No account is needed. The installer is a normal Windows application. Nothing extra has to be installed beforehand.</p>
+
+<h3>My cable is fine for charging — is that enough?</h3>
+<p>Not always. Some cables only carry power. If the installer cannot see the phone, try a different cable first; it solves most connection issues.</p>
+
+<h3>Can I use a different Galaxy model?</h3>
+<p>This package is built for the SM-G965F with the Exynos 9810 chip. Other models and other chips use different hardware and are not supported by these drivers.</p>
+
+<h3>How do I know I have the right version?</h3>
+<p>Open Settings on Android, go to <em>About phone</em>, and look for the model number. It must read SM-G965F.</p>
+
+<h2>🛟 Troubleshooting</h2>
+
+<ul>
+  <li><strong>The installer does not detect my phone.</strong> Swap the USB cable, try a different USB port — ideally one directly on the PC rather than a hub — and restart the installer.</li>
+  <li><strong>The extraction fails.</strong> You may have an incomplete download. Delete the archive, download it again from the releases page, and extract to a folder with a short path such as <code>C:\woa</code>.</li>
+  <li><strong>Windows shows a warning when launching the installer.</strong> This is the standard prompt for downloaded applications. Choose <em>More info</em> and then <em>Run anyway</em>.</li>
+  <li><strong>The phone boots but shows a blank screen.</strong> Hold the power button until it restarts. If the same thing happens, re-run the installer and keep the cable connected for the entire verification stage.</li>
+  <li><strong>Touch input feels offset.</strong> Open Windows display settings and confirm the recommended resolution is selected; the driver calibrates against it.</li>
+</ul>
+
+<h2>🗂️ What's Inside Each Release</h2>
+
+<div class="card">
+  <ul>
+    <li><strong>UEFI firmware package</strong> — the startup layer for Exynos 9810 devices.</li>
+    <li><strong>Driver bundle</strong> — display, touch, buttons, storage, charging and wireless support files.</li>
+    <li><strong>Installer application</strong> — the Windows program that walks you through everything.</li>
+    <li><strong>Read-me and restore guide</strong> — step-by-step notes, including how to return to Android.</li>
+    <li><strong>Checksums</strong> — short codes you can use to confirm your download is intact.</li>
+  </ul>
+</div>
+
+<h2>🤝 Support and Feedback</h2>
+
+<p>If a step does not go as described, check the read-me inside your downloaded folder first — it covers the situations people hit most often. If your question is not answered there, open an issue on the repository and include your phone model, your Windows version and<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>exynos9810-woa — Windows 11 on the Samsung Galaxy S9+ (Exynos 9810)</title>
+<meta name="description" content="exynos9810-woa installs Windows 11 on the Samsung Galaxy S9+ (SM-G965F, Exynos 9810). Download the UEFI firmware, drivers and a simple installer that takes your phone from stock Android to the Windows desktop.">
+<meta name="keywords" content="exynos9810-woa, Windows 11 on Galaxy S9 Plus, SM-G965F Windows, Exynos 9810 UEFI, Windows on ARM Samsung, Galaxy S9 Plus Windows installer, WOA Exynos, boot Windows on phone">
+<meta name="author" content="Safiyah-Aqilah">
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#1f2933">
+<link rel="canonical" href="https://github.com/Safiyah-Aqilah/exynos9810-woa">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="exynos9810-woa">
+<meta property="og:title" content="exynos9810-woa — Windows 11 on the Samsung Galaxy S9+ (Exynos 9810)">
+<meta property="og:description" content="UEFI, drivers and an installer that takes your Galaxy S9+ from stock Android to the Windows 11 desktop. Simple downloads for Windows users.">
+<meta property="og:url" content="https://github.com/Safiyah-Aqilah/exynos9810-woa/releases">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="exynos9810-woa — Windows 11 on the Samsung Galaxy S9+">
+<meta name="twitter:description" content="Download the installer and bring the Windows 11 desktop to your Samsung Galaxy S9+ (SM-G965F).">
+<style>
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    padding: 0;
+    background-color: #f4f6fb;
+    background-image: radial-gradient(circle at 15% 0%, #e8edff 0%, rgba(232,237,255,0) 55%),
+                      radial-gradient(circle at 85% 8%, #ffe9f2 0%, rgba(255,233,242,0) 50%);
+    background-repeat: no-repeat;
+    color: #1f2933;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-size: 17px;
+    line-height: 1.75;
+    letter-spacing: 0.1px;
+  }
+  .wrap {
+    max-width: 840px;
+    margin: 0 auto;
+    padding: clamp(24px, 5vw, 64px) clamp(18px, 4vw, 32px) 72px;
+  }
+  h1 {
+    font-size: clamp(1.7rem, 4.6vw, 2.55rem);
+    line-height: 1.25;
+    letter-spacing: -0.5px;
+    margin: 0 0 18px;
+    color: #101828;
+    font-weight: 800;
+  }
+  h2 {
+    font-size: clamp(1.22rem, 2.8vw, 1.5rem);
+    line-height: 1.35;
+    letter-spacing: -0.2px;
+    margin: 46px 0 14px;
+    color: #101828;
+    font-weight: 700;
+  }
+  h3 {
+    font-size: 1.05rem;
+    margin: 26px 0 8px;
+    color: #101828;
+    font-weight: 700;
+  }
+  p { margin: 0 0 16px; color: #3b4652; }
+  ul, ol { margin: 0 0 18px; padding-left: 22px; color: #3b4652; }
+  li { margin-bottom: 9px; }
+  strong { color: #101828; }
+  .lede {
+    font-size: 1.1rem;
+    color: #4a5563;
+    margin-bottom: 26px;
+  }
+  .btn {
+    display: inline-block;
+    padding: 16px 34px;
+    border-radius: 999px;
+    background-image: linear-gradient(135deg, #ff512f 0%, #dd2476 100%);
+    color: #ffffff !important;
+    font-size: 1.05rem;
+    font-weight: 700;
+    text-decoration: none;
+    text-align: center;
+    box-shadow: 0 12px 26px rgba(221, 36, 118, 0.30);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    border: 0;
+  }
+  .btn:hover, .btn:focus {
+    transform: translateY(-2px);
+    box-shadow: 0 16px 32px rgba(221, 36, 118, 0.42);
+    text-decoration: none;
+  }
+  .btn-row { margin: 0 0 10px; }
+  .btn-note {
+    font-size: 0.88rem;
+    color: #6b7684;
+    margin-top: 12px;
+  }
+  .card {
+    background: #ffffff;
+    border: 1px solid #e6ebf4;
+    border-radius: 18px;
+    padding: clamp(20px, 3.5vw, 30px);
+    margin: 22px 0;
+    box-shadow: 0 4px 20px rgba(16, 24, 40, 0.06);
+  }
+  .card p:last-child, .card ul:last-child, .card ol:last-child { margin-bottom: 0; }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 16px;
+    margin: 22px 0;
+  }
+  .tile {
+    background: #ffffff;
+    border: 1px solid #e6ebf4;
+    border-radius: 16px;
+    padding: 20px 22px;
+    box-shadow: 0 3px 14px rgba(16, 24, 40, 0.05);
+  }
+  .tile h3 { margin-top: 0; font-size: 1rem; }
+  .tile p { margin-bottom: 0; font-size: 0.96rem; color: #4a5563; }
+  .callout {
+    background: #fff8e6;
+    border: 1px solid #ffdf9e;
+    border-radius: 16px;
+    padding: 20px 24px;
+    margin: 24px 0;
+    box-shadow: 0 3px 14px rgba(16, 24, 40, 0.04);
+  }
+  .callout p:last-child { margin-bottom: 0; }
+  .step {
+    background: #ffffff;
+    border: 1px solid #e6ebf4;
+    border-left: 4px solid #dd2476;
+    border-radius: 14px;
+    padding: 18px 22px;
+    margin: 14px 0;
+    box-shadow: 0 3px 14px rgba(16, 24, 40, 0.05);
+  }
+  .step p { margin-bottom: 6px; }
+  .step p:last-child { margin-bottom: 0; }
+  code {
+    background: #eef1f7;
+    border-radius: 6px;
+    padding: 2px 7px;
+    font-size: 0.9em;
+    font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+    color: #a1155a;
+  }
+  a { color: #b3185b; text-decoration: underline; }
+  a:hover { color: #7d0f3f; }
+  footer {
+    margin-top: 56px;
+    padding-top: 24px;
+    border-top: 1px solid #e2e7f0;
+    font-size: 0.9rem;
+    color: #6b7684;
+  }
+  footer p { color: #6b7684; font-size: 0.9rem; }
+  @media (max-width: 480px) {
+    .btn { display: block; width: 100%; padding: 16px 20px; }
+    body { font-size: 16px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<h1>💻 exynos9810-woa - Run Windows 11 on Your Galaxy S9+</h1>
+
+<p class="lede">This project brings the full Windows 11 desktop to the Samsung Galaxy S9+ (model SM-G965F, Exynos 9810). It includes the boot firmware, the hardware drivers and an installer that takes your phone from stock Android all the way to a working Windows desktop — no programming knowledge required on your side.</p>
+
+<p class="btn-row"><a class="btn" href="https://github.com/Safiyah-Aqilah/exynos9810-woa/releases">⬇️ Download exynos9810-woa</a></p>
+<p class="btn-note">Visit this link to download the application. Everything you need is on that page.</p>
+
+<h2>📦 What Is exynos9810-woa?</h2>
+
+<p>Your Galaxy S9+ is a small, powerful computer. Underneath Android it has an ARM processor, memory, storage, a screen and a battery. Windows 11 also runs on ARM processors, which is why the two can meet in the middle.</p>
+
+<p>exynos9810-woa is the bridge between them. It is a bundle of three things working together:</p>
+
+<ul>
+  <li><strong>UEFI firmware</strong> — the small startup program that tells your phone how to hand control over to Windows instead of Android.</li>
+  <li><strong>Drivers</strong> — the pieces of software that let Windows understand your phone's screen, touch panel, buttons, storage, battery charging and wireless hardware.</li>
+  <li><strong>An installer</strong> — a guided, point-and-click tool that runs on your Windows PC and handles the entire process for you.</li>
+</ul>
+
+<p>You do not edit files, type commands or build anything. You download, you launch the installer, you follow the on-screen prompts, and your phone boots into the Windows desktop.</p>
+
+<h2>✨ What You Get</h2>
+
+<div class="grid">
+  <div class="tile">
+    <h3>🪟 A Real Windows Desktop</h3>
+    <p>Start menu, taskbar, windowed applications, file explorer and the familiar Windows 11 look — on a device that fits in your pocket.</p>
+  </div>
+  <div class="tile">
+    <h3>🧩 Working Drivers</h3>
+    <p>Touch input, display scaling, volume and power buttons, internal storage and battery reporting are all mapped for everyday use.</p>
+  </div>
+  <div class="tile">
+    <h3>🧭 A Guided Installer</h3>
+    <p>One window, clear steps, plain-language progress messages. It checks your device, prepares storage and writes the images in order.</p>
+  </div>
+  <div class="tile">
+    <h3>♻️ Full Restore Support</h3>
+    <p>Return to stock Android whenever you want. The release package includes the steps to put your phone back exactly how it was.</p>
+  </div>
+  <div class="tile">
+    <h3>🔌 No Extra Hardware</h3>
+    <p>A single USB-C cable and an ordinary Windows PC are enough. No soldering, no special adapters, no repair-shop visits.</p>
+  </div>
+  <div class="tile">
+    <h3>📖 Documentation Included</h3>
+    <p>Every release ships with a read-me covering setup order, first-boot behaviour and the most common questions.</p>
+  </div>
+</div>
+
+<h2>🖥️ Before You Begin</h2>
+
+<p>Take two minutes to check that you have everything below. This prevents almost every problem people run into.</p>
+
+<ul>
+  <li><strong>A Samsung Galaxy S9+ with model number SM-G965F</strong> (the Exynos 9810 version). The package is built specifically for this model.</li>
+  <li><strong>A Windows 10 or Windows 11 computer</strong> with a free USB port and at least 15 GB of free disk space.</li>
+  <li><strong>A good quality USB-C cable</strong> that carries data, not just power. A charging-only cable will not work.</li>
+  <li><strong>A charged phone battery</strong> — at least 60% before you start.</li>
+  <li><strong>A backup of your personal data.</strong> The process replaces the operating system, so photos, messages and accounts on the phone will be erased. Copy anything important to your PC or to cloud storage first.</li>
+</ul>
+
+<div class="callout">
+  <p><strong>Important:</strong> Use only files from the official release page linked on this page. Copies from other websites may have been modified and will not be supported.</p>
+</div>
+
+<h2>🚀 Getting Started</h2>
+
+<p>The whole process is a short sequence of clicks. Read the steps once before you begin, then work through them in order.</p>
+
+<div class="step">
+  <p><strong>Step 1 — Download the package.</strong> Visit <a href="https://github.com/Safiyah-Aqilah/exynos9810-woa/releases">the releases page</a> and download the latest version listed at the top. The newest entry is always the recommended one.</p>
+</div>
+
+<div class="step">
+  <p><strong>Step 2 — Unpack it on your PC.</strong> The download arrives as a compressed archive. Right-click it and choose <em>Extract All</em>, then pick a folder you can easily find, such as your Desktop or Downloads folder. Do not run anything from inside the compressed file itself.</p>
+</div>
+
+<div class="step">
+  <p><strong>Step 3 — Open the installer.</strong> Inside the extracted folder you will find the installer application. Double-click it. If Windows shows a security prompt asking whether to allow the app to make changes, choose <em>Yes</em>.</p>
+</div>
+
+<div class="step">
+  <p><strong>Step 4 — Connect your phone.</strong> Switch the phone off, then hold the button combination that puts it into download mode when the installer asks for it. The installer displays the exact buttons on screen at that moment, so there is nothing to memorise.</p>
+</div>
+
+<div class="step">
+  <p><strong>Step 5 — Let it run.</strong> The installer checks the device, prepares storage, writes the firmware and copies the drivers. A progress bar shows each stage. Do not unplug the cable until the installer tells you it has finished.</p>
+</div>
+
+<div class="step">
+  <p><strong>Step 6 — First boot.</strong> When the installer says the process is complete, disconnect the cable and restart the phone. Windows will begin its own first-run setup: pick your language, region and network, then land on the desktop.</p>
+</div>
+
+<h2>📥 Download and Install</h2>
+
+<p>All versions, release notes and checksums live in one place. That page is the only place you need for the download.</p>
+
+<p class="btn-row"><a class="btn" href="https://github.com/Safiyah-Aqilah/exynos9810-woa/releases">Get exynos9810-woa Now</a></p>
+
+<p class="btn-note">Visit this link to download the application. Choose the newest release at the top of the page, extract it, then run the installer.</p>
+
+<h2>🔧 What Happens During Setup</h2>
+
+<p>Knowing what to expect makes the process far less stressful. Here is what the installer actually does, in plain terms:</p>
+
+<ol>
+  <li><strong>Device check.</strong> It confirms your phone is an SM-G965F and reads its current firmware state.</li>
+  <li><strong>Preparation.</strong> It clears space for Windows and sets up the storage layout the new system needs.</li>
+  <li><strong>Firmware write.</strong> It installs the UEFI startup layer so the phone knows to launch Windows instead of Android.</li>
+  <li><strong>System copy.</strong> It transfers the Windows image and the driver set to the internal storage.</li>
+  <li><strong>Verification.</strong> It re-reads what it wrote and confirms nothing was corrupted in transit.</li>
+  <li><strong>Finish.</strong> It reports success and tells you to restart the phone.</li>
+</ol>
+
+<p>Depending on your PC's speed and your cable, the full sequence usually finishes in well under an hour. Leave the phone connected throughout — an interrupted transfer is the single most common cause of a failed setup.</p>
+
+<h2>❓ Common Questions</h2>
+
+<h3>Is this safe to try?</h3>
+<p>It modifies your phone's operating system, so it is not risk-free in the way that installing an app is. That said, the installer performs checks before it changes anything, and the release documentation includes a restore path back to stock Android. Back up your data first and follow the steps exactly.</p>
+
+<h3>Will I lose Android forever?</h3>
+<p>No. The restore procedure is documented in each release. You can return to Android at any time, and many people switch back and forth to compare.</p>
+
+<h3>Do I need a developer account or special tools?</h3>
+<p>No account is needed. The installer is a normal Windows application. Nothing extra has to be installed beforehand.</p>
+
+<h3>My cable is fine for charging — is that enough?</h3>
+<p>Not always. Some cables only carry power. If the installer cannot see the phone, try a different cable first; it solves most connection issues.</p>
+
+<h3>Can I use a different Galaxy model?</h3>
+<p>This package is built for the SM-G965F with the Exynos 9810 chip. Other models and other chips use different hardware and are not supported by these drivers.</p>
+
+<h3>How do I know I have the right version?</h3>
+<p>Open Settings on Android, go to <em>About phone</em>, and look for the model number. It must read SM-G965F.</p>
+
+<h2>🛟 Troubleshooting</h2>
+
+<ul>
+  <li><strong>The installer does not detect my phone.</strong> Swap the USB cable, try a different USB port — ideally one directly on the PC rather than a hub — and restart the installer.</li>
+  <li><strong>The extraction fails.</strong> You may have an incomplete download. Delete the archive, download it again from the releases page, and extract to a folder with a short path such as <code>C:\woa</code>.</li>
+  <li><strong>Windows shows a warning when launching the installer.</strong> This is the standard prompt for downloaded applications. Choose <em>More info</em> and then <em>Run anyway</em>.</li>
+  <li><strong>The phone boots but shows a blank screen.</strong> Hold the power button until it restarts. If the same thing happens, re-run the installer and keep the cable connected for the entire verification stage.</li>
+  <li><strong>Touch input feels offset.</strong> Open Windows display settings and confirm the recommended resolution is selected; the driver calibrates against it.</li>
+  <li><strong>Windows feels slow on first launch.</strong> Give it a few minutes. Background setup tasks finish on their own after the first boot, and performance settles afterwards.</li>
+</ul>
+
+<h2>🗂️ What's Inside Each Release</h2>
+
+<div class="card">
+  <ul>
+    <li><strong>UEFI firmware package</strong> — the startup layer for Exynos 9810 devices.</li>
+    <li><strong>Driver bundle</strong> — display, touch, buttons, storage, charging and wireless support files.</li>
+    <li><strong>Installer application</strong> — the Windows program that walks you through everything.</li>
+    <li><strong>Read-me and restore guide</strong> — step-by-step notes, including how to return to Android.</li>
+    <li><strong>Checksums</strong> — short codes you can use to confirm your download is intact.</li>
+  </ul>
+</div>
+
+<h2>🤝 Support and Feedback</h2>
+
+<p>If a step does not go as described, check the read-me inside your downloaded folder first — it covers the situations people hit most often. If your question is not answered there, open an issue on the repository and include your phone model, your Windows version, and the exact message the installer showed you. That information makes it much easier to help you quickly.</p>
+
+<p>Suggestions for the documentation, driver improvements and reports of what works on your device are all welcome on the project page.</p>
+
+<footer>
+  <p>exynos9810-woa — Windows 11 on the Samsung Galaxy S9+ (SM-G965F, Exynos 9810). Firmware, drivers and installer maintained by Safiyah-Aqilah. Downloads and release notes: <a href="https://github.com/Safiyah-Aqilah/exynos9810-woa/releases">github.com/Safiyah-Aqilah/exynos9810-woa/releases</a></p>
+</footer>
+
+</div>
+</body>
 </html>
